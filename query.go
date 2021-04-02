@@ -21,6 +21,7 @@ var Operator = map[string]string{
 	"lte":  "<=",
 	"like": "LIKE",
 	"in":   "IN",
+	"or":   "OR",
 }
 
 // SetFilter to replace filters
@@ -78,6 +79,9 @@ func (q *Query) Where() (string, []interface{}) {
 					tmpArgs += " 00:00:00"
 				}
 				args = append(args, tmpArgs)
+			case Operator["or"]:
+				wheres = append(wheres, columnName+` `+opr+` (?)`)
+				args = append(args, v)
 			default:
 				wheres = append(wheres, columnName+` `+opr+` ?`)
 				args = append(args, v)

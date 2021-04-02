@@ -25,6 +25,7 @@ func (t *Query) SetupTest() {
 		"name$like":      "sample user",
 		"created_at$gte": "2018-12-01",
 		"created_at$lte": "2018-12-31",
+		"mobile$or":      "089506351641",
 	})
 }
 
@@ -34,10 +35,10 @@ func (t *Query) SetupTest() {
 
 func (t *Query) TestFilter() {
 	smt, args := t.query.Where()
-	wheresExpected := []string{"user_id = ?", "name LIKE ?", "created_at >= ?", "created_at <= ?"}
+	wheresExpected := []string{"user_id = ?", "name LIKE ?", "created_at >= ?", "created_at <= ?", "mobile  = ?"}
 	wheresActual := strings.Split(smt, " AND ")
 	t.Require().Equal(wheresActual, wheresExpected)
-	t.Require().Equal(args, []interface{}{1, "%sample user%", "2018-12-01 00:00:00", "2018-12-31 23:59:59"})
+	t.Require().Equal(args, []interface{}{1, "%sample user%", "2018-12-01 00:00:00", "2018-12-31 23:59:59", "089506351641"})
 }
 
 func (t *Query) TestOrder() {
